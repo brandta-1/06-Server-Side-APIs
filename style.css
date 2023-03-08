@@ -1,0 +1,48 @@
+body{
+    background-color: antiquewhite;
+}
+.banner{
+    display: flex;
+    justify-content: space-around;
+    color: blueviolet;
+}
+
+#head {
+    display: flex;
+}
+
+#history {
+    width: 80%;
+    background-color: cornflowerblue;
+    border: solid blueviolet;
+   
+}
+
+.saved {
+    background-color: mediumslateblue;
+    margin: 2px;
+}
+
+#container{
+    display: flex;  
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.current-block {
+    border: solid antiquewhite;
+    font-size: 30px;
+    display: flex;
+    width: 100%;
+    background-color: cornflowerblue;
+}
+
+.current-block p, h3{
+    margin-left: 15px;
+}
+
+.forecast-block{
+    width: 19%;
+    border: solid blueviolet;
+    text-align: center;
+}
