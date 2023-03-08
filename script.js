@@ -1,14 +1,14 @@
 $(function () {
 
     var myCities = [];
-    
+
     var storedCities = JSON.parse(localStorage.getItem("myCities"));
-    
+
     if (storedCities !== null) {
         myCities = storedCities;
     }
-    
-    
+
+
     console.log(storedCities);
     console.log(myCities);
 
@@ -29,12 +29,14 @@ $(function () {
         return data;
     }
 
-    function createModule(input, name) {
+    function createModule(city, input, name) {
+
+        console.log()
 
         let currDiv = $("<div>").addClass(name + "-block");
 
         currDiv.append([
-            $("<h3>").text(input.dt_txt),
+            $("<h3>").text(city + " " + input.dt_txt),
             $("<img>").attr("src", "https://openweathermap.org/img/wn/" + input.weather[0].icon + "@2x.png"),
             $("<p>").text("Temp: " + input.main.temp),
             $("<p>").text("Wind: " + input.wind.speed + " MPH"),
@@ -58,36 +60,41 @@ $(function () {
         saveSearch(cityName);
 
         console.log(cityName);
-        
+
         
         let latLon = await getGeo(cityName);
         let current = await processURL('https://api.openweathermap.org/data/2.5/weather?units=imperial&lat=' + latLon[0] + '&lon=' + latLon[1] + '&appid=' + api_key);
         let forecast = await processURL('https://api.openweathermap.org/data/2.5/forecast?units=imperial&lat=' + latLon[0] + '&lon=' + latLon[1] + '&appid=' + api_key);
 
         current.dt_txt = dayjs().format('M/D/YYYY');
-        createModule(current, "current");
+        createModule(cityName, current, "current");
 
         forecast = forecast.list.filter((_, i) => {
             return i % 8 === 0;
         });
 
         forecast.forEach((_, i) => {
-            createModule(forecast[i], "forecast");
+            createModule(cityName, forecast[i], "forecast");
         });
+
         
     }
 
     function saveSearch(input) {
-        console.log(myCities);
+
         $('#history').append($("<button>").addClass("saved").text(input));
-        
+
+        if ($("#history > *").length > 10) {
+            $(".saved:first-child").remove();
+        }
+
         myCities.push(input);
         localStorage.setItem("myCities", JSON.stringify(myCities));
     }
 
-   
 
-    
+
+
     function displayCities() {
         myCities.forEach((_, i) => {
             let thisT = myCities[i];
